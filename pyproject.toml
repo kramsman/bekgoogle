@@ -1,0 +1,18 @@
+[project]
+name = "bekgoogle"
+version = "0.1.0"
+description = "Google Drive and Sheets API helpers"
+requires-python = ">=3.12"
+dependencies = [
+    "google-auth",
+    "google-auth-oauthlib",
+    "google-api-python-client",
+    "pymsgbox",
+    "loguru",
+    "uvbekutils",
+    "pandas",
+    "python-dotenv",
+]
+
+[tool.uv.sources]
+uvbekutils = { git = "https://github.com/kramsman/uvbekutils.git" }
