@@ -8,5 +8,3 @@ from bekgoogle.get_google_file_or_folder_ids import get_google_file_or_folder_id
 from bekgoogle.delete_list_of_google_files import delete_list_of_google_files
 from bekgoogle.create_google_services import create_google_services
 from bekgoogle.create_drive_subfolder import create_drive_subfolder
-from bekgoogle.upload_admin_report import upload_admin_report
-from bekgoogle.upload_room_reports import upload_room_reports
