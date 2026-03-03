@@ -39,7 +39,7 @@ def upload_sheet_to_drive(drive_service: Any, file_to_upload_w_path: str | Path,
     except:
         print(f"**** ERROR CONVERTING XLS FILE TO GOOGLE SHEET: Uploaded file name:  {file_name_wo_ext}, "
               f"path: {file_to_upload_w_path}")
-        # pymsgbox.alert(f"**** CONVERTING XLS FILE TO GOOGLE SHEET: Uploaded file name:  {file_to_upload_w_path}",
+        # pyautobek.alert(f"**** CONVERTING XLS FILE TO GOOGLE SHEET: Uploaded file name:  {file_to_upload_w_path}",
         #            "CHECK PYTHON CONSOLE FOR ERROR")
         pyautobek.alert(f"\n\n**** CONVERTING XLS FILE TO GOOGLE SHEET: Uploaded file name: "
                      f" {file_to_upload_w_path}","CHECK PYTHON CONSOLE FOR ERROR",
@@ -54,7 +54,7 @@ def upload_sheet_to_drive(drive_service: Any, file_to_upload_w_path: str | Path,
         # if file upload doesn't work
         print(f"**** ERROR WITH UPLOAD: Uploaded file name: {file_name_wo_ext}, path: "
           f"{file_to_upload_w_path}")
-        # pymsgbox.alert(f"**** ERROR WITH UPLOAD: Uploaded file name: {file_name_wo_ext}",
+        # pyautobek.alert(f"**** ERROR WITH UPLOAD: Uploaded file name: {file_name_wo_ext}",
         #            "CHECK PYTHON CONSOLE FOR ERROR")
         pyautobek.alert(f"\n\n**** ERROR WITH UPLOAD: Uploaded file name: {file_name_wo_ext}",
                  "CHECK PYTHON CONSOLE FOR ERROR",

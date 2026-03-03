@@ -3,8 +3,8 @@
 import os
 import logging
 from pathlib import Path
+from uvbekutils import pyautobek
 
-import pymsgbox
 from loguru import logger
 from google.oauth2.credentials import Credentials
 
@@ -18,7 +18,7 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
 
     Reads an existing token file if available, refreshes an expired access
     token, or runs the full OAuth flow from a credentials JSON file. Alerts
-    the user via pymsgbox if credential files are missing.
+    the user via pyautobek if credential files are missing.
 
     Args:
         scopes: OAuth2 scopes to request.
@@ -44,7 +44,6 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
     """
 
     # import pathlib
-    # import pymsgbox
     # from google.auth.transport.requests import Request
     import google.auth.transport.requests
     from google_auth_oauthlib.flow import InstalledAppFlow
@@ -52,7 +51,7 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
     def bek_cred_flow():
         """Run the installed-app OAuth flow and return new credentials.
 
-        Prompts the user via pymsgbox before opening the browser, then calls
+        Prompts the user via pyautobek before opening the browser, then calls
         InstalledAppFlow.run_local_server().
 
         Returns:
@@ -67,7 +66,7 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
                  "\n\n   - Must say process completed - close this window."
                  "\n   - If you get error 403, hit back in the browser and try again")
         logger.debug(msg)
-        pymsgbox.alert(msg,"Verify Google Account")
+        pyautobek.alert(msg, "Verify Google Account")
         creds = flow.run_local_server(port=0)
         logger.debug(f"{creds.__dict__=}")
         return creds
@@ -93,12 +92,12 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
 
     # FIXME this should check token (w refresh?) then credential
     if not cred_w_path.is_file():
-        pymsgbox.alert(f"'{cred_w_path}' is missing. Copy it from another dir or download from API manager")
+        pyautobek.alert(f"'{cred_w_path}' is missing. Copy it from another dir or download from API manager")
         # exit()
 
     if not token_w_path.is_file() and not cred_w_path.is_file():
         logger.error(f"'{token_w_path}' and {cred_w_path} are both missing.")
-        pymsgbox.alert(f"'{token_w_path}' and {cred_w_path} are both missing.")
+        pyautobek.alert(f"'{token_w_path}' and {cred_w_path} are both missing.")
         exit()
 
     creds = None
@@ -127,12 +126,12 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
                 logger.error("Creds refresh worked using token")
                 logger.debug(f"{creds.__dict__=}")
             except Exception as e:
-                pymsgbox.alert(f"Creds(request)) did not work using token.\nGoing to prompt for Google login."
+                pyautobek.alert(f"Creds(request)) did not work using token.\nGoing to prompt for Google login."
                                f"\n\nError=\n{e}",
                                "Google Credential Issue")
                 logger.debug("refresh failed - going to run bek_cred_flow")
                 credsX = bek_cred_flow()
-                pymsgbox.alert(f"Creds(request)) created.\nRerun program and you should not be prompted for login.",
+                pyautobek.alert(f"Creds(request)) created.\nRerun program and you should not be prompted for login.",
                                "Google Credential Created")
                 # exit()  # TODO: why does this error with SIGDEF?  It used to wok.  Explore.
         else:

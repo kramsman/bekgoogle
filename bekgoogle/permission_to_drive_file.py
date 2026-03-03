@@ -63,7 +63,7 @@ def permission_to_drive_file(drive_service: Any, drive_file_id: str, email_flag:
             print(f"Error giving permission, click ok to continue: Email: {email}, Uploaded file id: {drive_file_id}")
             print(sys.exc_info()[2])
             traceback.print_exc()
-            # pymsgbox.alert(
+            # pyautobek.alert(
             #     f"*****  ERROR GIVING PERMISSION: Email: {email}, Uploaded file id: {drive_file_id}",
             #     "CHECK PYTHON CONSOLE FOR ERROR")
             pyautobek.alert(f"Error giving permission, ok to ignore: (likely blocked by recipient): Email: "
