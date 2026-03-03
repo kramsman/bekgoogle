@@ -11,7 +11,8 @@ from google.oauth2.credentials import Credentials
 DEFAULT_CREDS_DIR = Path(os.getenv("GOOGLE_CREDS_DIR", "~/.config/bekgoogle")).expanduser()
 
 
-def get_creds(scopes: list[str], cred_file: str | None = None, cred_dir: Path | None = None, token_file: str | None = None, token_dir: Path | None = None, always_create: bool = False,
+def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path | None = None,
+              token_file: str | None = None, token_dir: Path | None = None, always_create: bool = False,
               write_token: bool = True) -> Credentials:
     """Obtain valid Google OAuth2 credentials, refreshing or creating as needed.
 
@@ -36,6 +37,10 @@ def get_creds(scopes: list[str], cred_file: str | None = None, cred_dir: Path | 
 
     Returns:
         A valid google.oauth2.credentials.Credentials instance.
+
+    Parameters
+    ----------
+    * :
     """
 
     # import pathlib
