@@ -10,4 +10,3 @@ from bekgoogle.create_google_services import create_google_services
 from bekgoogle.create_drive_subfolder import create_drive_subfolder
 from bekgoogle.upload_admin_report import upload_admin_report
 from bekgoogle.upload_room_reports import upload_room_reports
-from bekgoogle.upload_files import upload_files
