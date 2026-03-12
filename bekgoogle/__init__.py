@@ -19,3 +19,4 @@ from bekgoogle.delete_list_of_google_files import delete_list_of_google_files
 from bekgoogle.create_google_services import create_google_services
 from bekgoogle.create_drive_subfolder import create_drive_subfolder
 from bekgoogle.upload_secrets import upload_secrets
+from bekgoogle.append_to_sheet import append_to_sheet

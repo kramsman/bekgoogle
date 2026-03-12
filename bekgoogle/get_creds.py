@@ -58,7 +58,7 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
             New credentials returned by the OAuth consent screen flow.
         """
         logger.debug("get_creds using credentials -going to call 'InstalledAppFlow.from_client_secrets_file'")
-        flow = InstalledAppFlow.from_client_secrets_file(cred_file, scopes)
+        flow = InstalledAppFlow.from_client_secrets_file(cred_w_path, scopes)
         logger.debug(f"got flow: {flow.__dict__=}")
         # creds = flow.run_local_server(port=0)
         msg = ("Calling the 2nd part of flow, 'flow.run_local_server(port=0)'"

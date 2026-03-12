@@ -170,3 +170,6 @@ cython_debug/
 
 /.env.example
 /.idea/misc.xml
+/.idea/bekgoogle.iml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
