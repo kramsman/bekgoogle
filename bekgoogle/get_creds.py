@@ -130,12 +130,12 @@ def get_creds(*, scopes: list[str], cred_file: str | None = None, cred_dir: Path
                                f"\n\nError=\n{e}",
                                "Google Credential Issue")
                 logger.debug("refresh failed - going to run bek_cred_flow")
-                credsX = bek_cred_flow()
+                creds = bek_cred_flow()
                 pyautobek.alert(f"Creds(request)) created.\nRerun program and you should not be prompted for login.",
                                "Google Credential Created")
                 # exit()  # TODO: why does this error with SIGDEF?  It used to wok.  Explore.
         else:
-            credsX = bek_cred_flow()
+            creds = bek_cred_flow()
 
         # Save the credentials for the next run
         if write_token:
