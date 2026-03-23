@@ -7,8 +7,6 @@ import sys
 import traceback
 from typing import Any
 
-from uvbekutils import pyautobek
-
 
 def permission_to_drive_file(drive_service: Any, drive_file_id: str, email_flag: bool, email: str, permission_msg: str | None) -> None:
     """Grant reader permission on a Google Drive file to one user.
@@ -60,15 +58,8 @@ def permission_to_drive_file(drive_service: Any, drive_file_id: str, email_flag:
                                        emailMessage=permission_msg,
                                        body=payload).execute()
         except Exception as e:
-            print(f"Error giving permission, click ok to continue: Email: {email}, Uploaded file id: {drive_file_id}")
-            print(sys.exc_info()[2])
+            print(f"Error giving permission: Email: {email}, Uploaded file id: {drive_file_id}")
             traceback.print_exc()
-            # pyautobek.alert(
-            #     f"*****  ERROR GIVING PERMISSION: Email: {email}, Uploaded file id: {drive_file_id}",
-            #     "CHECK PYTHON CONSOLE FOR ERROR")
-            pyautobek.alert(f"Error giving permission, ok to ignore: (likely blocked by recipient): Email: "
-                         f"{email}, Uploaded file id: {drive_file_id}",
-                     "Click OK to Continue",
-                            )
+            raise
 
     a=1
