@@ -11,5 +11,5 @@ def delete_list_of_google_files(drive_service: Any, file_id_list: list[str]) -> 
         file_id_list: Google Drive file or folder IDs to trash.
     """
     for folderId in file_id_list:
-        drive_service.files().update(fileId=folderId, body={'trashed': True}).execute()
+        drive_service.files().update(fileId=folderId, body={'trashed': True}, supportsAllDrives=True).execute()
         # trash instead of delete moves to trash; delete gone for good

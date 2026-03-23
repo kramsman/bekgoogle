@@ -40,7 +40,9 @@ def get_google_file_or_folder_ids(drive_service: Any, file_or_folder: str, folde
             q=query_string,
             spaces='drive',
             fields="nextPageToken, files(id, name, trashed, parents)",
-            pageToken=page_token).execute()
+            pageToken=page_token,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True).execute()
         print(f"Found old folders with same name- response: {response}")
 
 
