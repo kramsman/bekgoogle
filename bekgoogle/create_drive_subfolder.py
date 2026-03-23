@@ -22,7 +22,7 @@ def create_drive_subfolder(drive_service: Any, folder_name: str, drive_folder_id
         'name': folder_name,
         'parents': drive_folder_id,
         'mimeType': 'application/vnd.google-apps.folder'}
-    file = drive_service.files().create(body=file_metadata, fields='id').execute()
+    file = drive_service.files().create(body=file_metadata, supportsAllDrives=True, fields='id').execute()
     new_folder_id = file.get('id')
     # print('Folder ID created: %s' % file.get('id'))
 
