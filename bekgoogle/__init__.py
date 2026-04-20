@@ -22,3 +22,4 @@ from bekgoogle.upload_secrets import upload_secrets
 from bekgoogle.append_to_sheet import append_to_sheet
 from bekgoogle.get_serviceaccount_creds import get_serviceaccount_creds
 from bekgoogle.create_google_services_serviceaccount import create_google_services_serviceaccount
+from bekgoogle.ensure_adc import ensure_adc_auth
