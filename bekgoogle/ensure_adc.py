@@ -1,14 +1,17 @@
 """Re-authenticate Application Default Credentials when gcloud auth expires."""
 
 import subprocess
-from uvbekutils import pyautobek
+import google.auth
+import google.auth.transport.requests
 
 
 def ensure_adc_auth() -> None:
-    """Open browser re-auth when gcloud ADC credentials have expired."""
-    pyautobek.alert(
-        "Google credentials have expired.\n\n"
-        "A browser window will open — sign in with your Google account to continue.",
-        "Re-authenticate Google",
-    )
-    subprocess.run(["gcloud", "auth", "application-default", "login"], check=True)
+    """Check ADC credentials and trigger browser re-auth if expired."""
+    try:
+        creds, _ = google.auth.default()
+        creds.refresh(google.auth.transport.requests.Request())
+    except Exception as e:
+        if not any(k in str(e).lower() for k in ("reauth", "expired", "invalid_grant", "could not be found", "credentials")):
+            return
+        print("\nGoogle credentials have expired. A browser window will open — sign in to continue.\n")
+        subprocess.run(["gcloud", "auth", "application-default", "login"], check=True)
