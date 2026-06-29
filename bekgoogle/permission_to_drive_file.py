@@ -54,6 +54,7 @@ def permission_to_drive_file(drive_service: Any, drive_file_id: str, email_flag:
         # Try again with notification set to true
         try:
             drive_service.permissions().create(fileId=drive_file_id,
+                                       supportsAllDrives=True,
                                        sendNotificationEmail=True,
                                        emailMessage=permission_msg,
                                        body=payload).execute()
