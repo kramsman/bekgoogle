@@ -7,6 +7,60 @@ from google.cloud import secretmanager
 from loguru import logger
 
 
+_secret_cache: dict[tuple[str, str], str] = {}
+_client_cache: dict[str, secretmanager.SecretManagerServiceClient] = {}
+
+
+def get_secret(secret_id: str, project_id: str, use_cache: bool = True) -> str:
+    """Read the latest version of a secret's value.
+
+    The counterpart to the create/update/delete helpers here, which had no way to
+    read a value back — so every caller hand-wrote this, and the copies drifted.
+
+    Retries once through ``ensure_adc_auth`` when Application Default Credentials
+    have expired, which is the common failure on a workstation. That import is
+    deliberately local: importing it at module level would pull in the Drive and
+    Sheets helpers, and through them PySide6.
+
+    Args:
+        secret_id: Name of the secret, e.g. "PCP_APP_ID".
+        project_id: Google Cloud project id holding the secret.
+        use_cache: Reuse a value already read in this process. Set False when a
+            secret may have been rotated during the run.
+
+    Returns:
+        The secret's latest value, decoded as UTF-8.
+
+    Raises:
+        Exception: Whatever Secret Manager raised, if it was not an expired-ADC
+            error or the retry also failed.
+    """
+    key = (project_id, secret_id)
+    if use_cache and key in _secret_cache:
+        return _secret_cache[key]
+
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/latest"
+
+    def _read(client):
+        return client.access_secret_version(request={"name": name}).payload.data.decode("UTF-8")
+
+    client = _client_cache.get(project_id) or secretmanager.SecretManagerServiceClient()
+    _client_cache[project_id] = client
+    try:
+        value = _read(client)
+    except Exception as e:
+        if "Reauthentication is needed" not in str(e):
+            raise
+        from bekgoogle.ensure_adc import ensure_adc_auth
+        ensure_adc_auth()
+        client = secretmanager.SecretManagerServiceClient()
+        _client_cache[project_id] = client
+        value = _read(client)
+
+    _secret_cache[key] = value
+    return value
+
+
 def create_secret_only(token: str, project_num: str, secret_id: str) -> tuple[bool, int]:
     """Creates a secret container in Google Secret Manager without a value.
 
